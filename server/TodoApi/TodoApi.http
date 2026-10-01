@@ -1,0 +1,56 @@
+# Manual API tests. Open in Visual Studio / VS Code (REST Client extension)
+# or JetBrains Rider and click "Send Request" above each block.
+# Start the API first:  dotnet run --project server/TodoApi
+
+@host = http://localhost:5167
+
+### Get all TODOs
+GET {{host}}/api/todos
+
+### Create a TODO (title + optional description)
+POST {{host}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Buy milk",
+  "description": "2 litres"
+}
+
+### Create a TODO without a description
+POST {{host}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Call the bank"
+}
+
+### Validation error: blank title -> 400
+POST {{host}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "   "
+}
+
+### Update title/description of TODO 1
+PUT {{host}}/api/todos/1
+Content-Type: application/json
+
+{
+  "title": "Buy oat milk",
+  "description": "1 litre"
+}
+
+### Toggle done status of TODO 1
+PATCH {{host}}/api/todos/1/done
+
+### Delete TODO 2
+DELETE {{host}}/api/todos/2
+
+### Not found -> 404
+PUT {{host}}/api/todos/99999
+Content-Type: application/json
+
+{
+  "title": "Does not exist"
+}
